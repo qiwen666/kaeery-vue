@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <sidebar></sidebar>
-    <div>
+    <div class="main">
       <breadCrumb></breadCrumb>
       <adminMain></adminMain>
     </div>
@@ -22,3 +22,13 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.home {
+  display: flex;
+  background: var(--bg-gray-color);
+  .main {
+    width: calc(100% - 250px);
+    margin-left: 10px;
+  }
+}
+</style>

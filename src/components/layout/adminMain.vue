@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="admin-main">
     <router-view></router-view>
   </div>
 </template>
@@ -10,6 +10,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .admin-main {
+    height: calc(100% - 56px);
+    padding: 15px;
+    margin-top: 10px;
+    background: var(--bg-white-color);
+  }
 </style>
