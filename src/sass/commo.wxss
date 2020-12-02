@@ -1,0 +1,6 @@
+::root {
+  --page-olor: #f6f8f9;
+  --add-bg-color: #0caf87;
+  --edit-bg-color: #5bc0de;
+  --remove-bg-color: #d9534f;
+}
