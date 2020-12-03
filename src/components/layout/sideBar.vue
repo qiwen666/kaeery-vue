@@ -3,63 +3,54 @@
     <div class="sidebar-top">KAEERY-VUE</div>
     <div class="sidebar-item">
       <el-menu
-        default-active="/user/register"
+        :default-active="activeMenu"
         class="el-menu-vertical-demo"
         text-color="#fff"
         background-color="#545c64"
         active-text-color="#409EFF"
         router
       >
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-user"></i>
-            <span>用户管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="/user/register">注册用户</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-document-copy"></i>
-            <span>内容管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="/content/article">文章管理</el-menu-item>
-            <el-menu-item index="2-2">教程管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-setting"></i>
-            <span>系统设置</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="3-1">焦点图</el-menu-item>
-            <el-menu-item index="3-2">后台菜单</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title">
-            <i class="el-icon-warning-outline"></i>
-            <span>权限管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="4-1">后台管理员</el-menu-item>
-            <el-menu-item index="4-2">角色设置</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-menu-item index="5">
-          <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
-        </el-menu-item>
+        <template v-for="item in routers" >
+          <el-submenu :index="item.path + '/' + item.redirect" v-if="!item.hidden && item.meta" :key="item.name">
+            <template slot="title">
+              <i :class="item.meta.icon"></i>
+              <span >{{item.name}}</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item :index="item.path + '/' + child.path" v-for="child in item.children" :key="child.name">{{child.name}}</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+        <template  v-for="(first) in item.children" >
+          <el-menu-item v-if="!item.hidden && !item.meta"  :index="first.path" :key="first.name">
+            <i :class="first.meta.icon"></i>
+            <span slot="title">{{ item.name }}</span>
+          </el-menu-item>
+        </template>
+
+        </template>
       </el-menu>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      routers: []
+    }
+  },
+  mounted() {
+    this.routers = JSON.parse(localStorage.getItem('menus'));
+  },
+  computed: {
+    activeMenu() {
+      if(this.routers.length) {
+        return this.routers[2].path + '/' + this.routers[2].redirect ;
+      }
+    }
+  },
+};
 </script>
 
 <style lang="scss">
@@ -103,5 +94,23 @@ export default {};
 }
 ::v-deep .el-submenu__title:focus, .el-submenu__title:hover {
   background: rgba(255,255,255,.3);
+}
+.sidebar{
+  .el-menu-item.is-active {
+      background: rgba(0,0,0,.3) !important;
+  }
+  .el-menu-item,
+  .el-submenu__title {
+      &:hover {
+        background: rgba(0,0,0, 0.3) !important;
+      }
+  }
+} 
+::v-deep .el-menu-item-group__title {
+  padding: 0;
+}
+::v-deep .el-submenu .el-menu-item {
+  height: 56px;
+  line-height: 56px;
 }
 </style>

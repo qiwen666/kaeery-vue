@@ -11,6 +11,8 @@ Vue.use(ElementUI);
 // import scss
 import './assets/scss/style.scss';
 
+import permission from './permission';
+
 Vue.config.productionTip = false
 
 new Vue({

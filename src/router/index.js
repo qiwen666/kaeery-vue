@@ -5,39 +5,92 @@ import Home from '../views/Home.vue'
 const login = () => import('@/views/Login');
 const user = () => import('@/views/user/index');
 const article = () => import('@/views/content/article');
+const system = () => import('@/views/system/index');
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    redirect: 'login',
-  },
+export const constantRoutes = [
   {
     path: '/login',
-    component: login
+    component: login,
+    hidden: true
   },
   {
-    path: '/',
-    name: 'Home',
+    path: '/home',
     component: Home,
-    redirect: 'user/register',
+    redirect: '/user',
+    name: '首页',
     children: [
       { 
-        path: 'user/register',
+        path: '/user',
         component: user
-      },
-      {
-        path: 'content/article',
-        component: article
-      }  
-    ]
+      }
+    ],
+    hidden: true
   },
+
 ]
 
+export const asyncRoutes = [
+  {
+    path: '/user',
+    component: Home,
+    name: '用户管理',
+    redirect: 'register',
+    meta: {
+      role: ['财务人员'],
+      icon: 'el-icon-user'
+    },
+    children: [
+      {
+        path: 'register',
+        component: user,
+        name: '注册用户',
+        meta: {
+          role: ['财务人员'],
+        }
+      }
+    ]
+  },
+  {
+    path: '/content',
+    component: Home,
+    name: '内容管理',
+    meta: {
+      role: ['管理员'],
+      icon: 'el-icon-document-copy'
+    },
+    children: [
+      {
+        path: 'article',
+        component: article,
+        name: '文章管理',
+        meta: {
+          role: ['管理员'],
+        }
+      }
+    ]
+  },
+  {
+    path: 'systemInfo',
+    component: Home,
+    name: '系统管理',
+    children: [
+      {
+        path: '/system',
+        component: system,
+        name: '系统管理',
+        meta: {
+          role: ['财务人员'],
+          icon: 'el-icon-setting'
+        }
+      }
+    ]
+  }
+]
 const router = new VueRouter({
   mode: 'history',
-  routes
+  routes: constantRoutes
 })
 
 export default router
