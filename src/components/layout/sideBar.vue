@@ -11,31 +11,36 @@
         router
       >
         <template v-for="item in routers" >
-          <!-- 二级目录 -->
+          <!-- 二级目录 user/register-->
           <el-submenu :index="item.path + '/' + item.redirect" v-if="!item.hidden && item.meta" :key="item.name">
             <template slot="title">
               <i :class="item.meta.icon"></i>
               <span >{{item.name}}</span>
             </template>
-            <el-menu-item-group>
-              <el-menu-item :index="item.path + '/' + child.path" v-for="child in item.children" :key="child.name">{{child.name}}</el-menu-item>
+            <el-menu-item-group >
+              <template v-for="child in item.children">
+                <el-menu-item :index="item.path + '/' + child.path" v-if="!child.children" :key="child.name">{{child.name}}</el-menu-item>
+              </template>
             </el-menu-item-group>
-            <!-- 三级目录 -->
-            <el-submenu index="1-4" class="more-sidebar">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
+            <!-- 三级目录 user/role/create-->
+            <template v-for="second in item.children">
+              <el-submenu :index="item.path + '/' + second.path" v-if="second.children&&second.children.length" :key="second.name" class="more-sidebar">
+                <template slot="title">{{second.name}}</template>
+                <el-menu-item v-for="third in second.children" :key="third.name" :index="item.path + '/' +second.path + '/' + third.path">{{third.name}}</el-menu-item>
+              </el-submenu>
+            </template>
           </el-submenu>
         <template  v-for="(first) in item.children" >
-          <!-- 一级目录 -->
-          <el-menu-item v-if="!item.hidden && !item.meta"  :index="first.path" :key="first.name">
+          <!-- 一级目录 system-->
+          <el-menu-item v-if="!item.hidden && !item.meta"  :index="first.path" :key="first.name"> 
             <i :class="first.meta.icon"></i>
             <span slot="title">{{ item.name }}</span>
           </el-menu-item>
         </template>
 
         </template>
-      </el-menu>
+      </el-menu> 
+
     </div>
   </div>
 </template>

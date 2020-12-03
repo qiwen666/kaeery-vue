@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 
 const login = () => import('@/views/Login');
 const user = () => import('@/views/user/index');
+const role = () => import('@/views/user/role/index');
+const createRole = () => import('@/views/user/role/createRole');
 const article = () => import('@/views/content/article');
 const system = () => import('@/views/system/index');
 
@@ -48,7 +50,25 @@ export const asyncRoutes = [
         name: '注册用户',
         meta: {
           role: ['财务人员'],
-        }
+        },
+      },
+      {
+        path: 'role',
+        component: role,
+        name: '角色设置',
+        meta: {
+          role: ['财务人员']
+        },
+        children: [
+          {
+            path: 'create',
+            name: '添加角色',
+            component: createRole,
+            meta: {
+              role: ['财务人员']
+            }
+          }
+        ]
       }
     ]
   },
@@ -88,6 +108,7 @@ export const asyncRoutes = [
     ]
   }
 ]
+
 const router = new VueRouter({
   mode: 'history',
   routes: constantRoutes
