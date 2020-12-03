@@ -30,6 +30,7 @@ router.beforeEach(async(to, from ,next) => {
           router.push({
             path: to.path
           })
+          return false;
         }
       }else {
         next();

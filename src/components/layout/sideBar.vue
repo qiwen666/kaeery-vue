@@ -3,7 +3,7 @@
     <div class="sidebar-top">KAEERY-VUE</div>
     <div class="sidebar-item">
       <el-menu
-        :default-active="activeMenu"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         text-color="#fff"
         background-color="#545c64"
@@ -11,6 +11,7 @@
         router
       >
         <template v-for="item in routers" >
+          <!-- 二级目录 -->
           <el-submenu :index="item.path + '/' + item.redirect" v-if="!item.hidden && item.meta" :key="item.name">
             <template slot="title">
               <i :class="item.meta.icon"></i>
@@ -19,8 +20,14 @@
             <el-menu-item-group>
               <el-menu-item :index="item.path + '/' + child.path" v-for="child in item.children" :key="child.name">{{child.name}}</el-menu-item>
             </el-menu-item-group>
+            <!-- 三级目录 -->
+            <el-submenu index="1-4" class="more-sidebar">
+              <template slot="title">选项4</template>
+              <el-menu-item index="1-4-1">选项1</el-menu-item>
+            </el-submenu>
           </el-submenu>
         <template  v-for="(first) in item.children" >
+          <!-- 一级目录 -->
           <el-menu-item v-if="!item.hidden && !item.meta"  :index="first.path" :key="first.name">
             <i :class="first.meta.icon"></i>
             <span slot="title">{{ item.name }}</span>
@@ -68,6 +75,16 @@ export default {
     background: #545c64;
   }
 }
+.more-sidebar {
+  .el-submenu__title {
+    padding-left: 60px!important;
+  }
+  .el-menu .el-menu-item {
+    padding-left: 70px!important;
+  }
+
+}
+
 </style>
 <style lang="scss" scoped>
 .el-menu-item-group .el-menu-item {
