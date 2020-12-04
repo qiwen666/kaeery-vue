@@ -8,7 +8,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input v-model="form.password" placeholder="密码"></el-input>
+        <el-input v-model="form.password" placeholder="密码" @keyup.enter.native="handleLogin"></el-input>
       </el-form-item>
       <el-form-item label="">
         <el-checkbox v-model="checked" class="remember">记住密码</el-checkbox>

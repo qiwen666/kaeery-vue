@@ -57,7 +57,7 @@ export const asyncRoutes = [
         component: role,
         name: '角色设置',
         meta: {
-          role: ['财务人员']
+          role: ['财务人员'],
         },
         children: [
           {
@@ -65,7 +65,7 @@ export const asyncRoutes = [
             name: '添加角色',
             component: createRole,
             meta: {
-              role: ['财务人员']
+              role: ['财务人员'],
             }
           }
         ]
@@ -78,7 +78,7 @@ export const asyncRoutes = [
     name: '内容管理',
     meta: {
       role: ['管理员'],
-      icon: 'el-icon-document-copy'
+      icon: 'el-icon-document-copy',
     },
     children: [
       {
@@ -102,7 +102,7 @@ export const asyncRoutes = [
         name: '系统管理',
         meta: {
           role: ['财务人员'],
-          icon: 'el-icon-setting'
+          icon: 'el-icon-setting',
         }
       }
     ]

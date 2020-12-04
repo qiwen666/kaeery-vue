@@ -25,7 +25,10 @@
             <!-- 三级目录 user/role/create-->
             <template v-for="second in item.children">
               <el-submenu :index="item.path + '/' + second.path" v-if="second.children&&second.children.length" :key="second.name" class="more-sidebar">
-                <template slot="title">{{second.name}}</template>
+                <template slot="title">
+                  <i :class="second.meta.icon"></i>
+                  {{second.name}}
+                </template>
                 <el-menu-item v-for="third in second.children" :key="third.name" :index="item.path + '/' +second.path + '/' + third.path">{{third.name}}</el-menu-item>
               </el-submenu>
             </template>
@@ -106,7 +109,7 @@ export default {
   font-size: 16px;
 }
 .el-submenu [class^=el-icon-] , .el-menu-item [class^=el-icon-]{
-  margin-right: 15px;
+  margin-right: 8px;
 }
 ::v-deep .el-submenu__title i, .el-menu-item i {
   color: var(--bg-white-color);

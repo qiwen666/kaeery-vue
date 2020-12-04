@@ -3,13 +3,15 @@ import Vuex from 'vuex'
 import user from './modules/user';
 import permission from './modules/permission';
 
+import state from './state';
 import getters from './getters';
+import mutations from './mutations';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state,
+  mutations,
   actions: {},
   getters,
   modules: {

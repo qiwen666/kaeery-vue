@@ -2,7 +2,7 @@
   <div class="home">
     <sidebar></sidebar>
     <div class="main">
-      <breadCrumb></breadCrumb>
+      <breadCrumb :breadcrumb="breadcrumb"></breadCrumb>
       <adminMain></adminMain>
     </div>
   </div>
@@ -15,6 +15,11 @@ import adminMain from '@/components/layout/adminMain.vue';
 
 export default {
   name: 'Home',
+  computed: {
+    breadcrumb() {
+      return this.$store.state.breadcrumb;
+    }
+  },
   components: {
     Sidebar,
     BreadCrumb,
