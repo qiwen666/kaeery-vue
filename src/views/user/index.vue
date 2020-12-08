@@ -9,16 +9,20 @@
     :tableOptions="tableOptions"
     :tableHandle="tableHandle"
     :tableData="tableData"
-    v-slot="slotProps"
     >
-    <el-tooltip
-      class="item"
-      effect="dark"
-      :content="slotProps.row.content"
-      placement="bottom"
-    >
-      <div>{{ slotProps.row.content | toFormatContent }}</div>
-    </el-tooltip>
+    <template v-slot:content="slotProps">
+      <el-tooltip
+        class="item"
+        effect="dark"
+        :content="slotProps.row.content"
+        placement="bottom"
+      >
+        <div>{{ slotProps.row.content | toFormatContent }}</div>
+      </el-tooltip>
+    </template>
+      <template v-slot:quality="slotProps">
+        <span class="operator">{{slotProps.row.quality}}</span>
+      </template>
     </table-template>
   </div>
 </template>
@@ -48,7 +52,14 @@ export default {
         {
           label: '内容',
           prop: 'content',
-          custom: true
+          slotContent: 'slot',
+          slotName: 'content'
+        },
+        {
+          label: '权限',
+          prop: 'quality',
+          slotContent: 'slot',
+          slotName: 'quality'
         },
         {
           label: '审核时间',
@@ -100,7 +111,8 @@ const operates = that => [
           registerTime: "2016-05-02",
           title: "王小虎",
           status: 1,
-          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈'
+          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈',
+          quality: '查看'
         },
         {
           registerTime: "2016-05-02",
@@ -168,5 +180,9 @@ const operates = that => [
     width: 80px;
     padding: 10px;
   }
+}
+.operator {
+  color: var(--font-checked-color);
+  cursor: pointer;
 }
 </style>

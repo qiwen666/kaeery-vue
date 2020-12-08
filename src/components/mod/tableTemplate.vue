@@ -31,7 +31,8 @@
     >
       <template slot-scope="scope">
         <div v-if="item.render">{{ item.render(scope.row) }}</div>
-        <slot v-else-if="item.custom" :row="scope.row"></slot>
+        <!-- 自定义表格插槽 -->
+        <slot v-else-if="item.slotContent && item.slotContent === 'slot'" :name="item.slotName" :row="scope.row"></slot>
         <div v-else>{{ scope.row[item.prop] }}</div>
       </template>
     </el-table-column>
