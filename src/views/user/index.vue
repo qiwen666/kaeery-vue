@@ -5,10 +5,13 @@
       <el-button plain icon="el-icon-search">搜索</el-button>
     </div>
     <table-template 
-    :columns="tableHeader"
-    :tableOptions="tableOptions"
-    :tableHandle="tableHandle"
-    :tableData="tableData"
+      :hasPagination="hasPagination"
+      :columns="tableHeader"
+      :tableOptions="tableOptions"
+      :tableHandle="tableHandle"
+      :tableData="tableData"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
     >
     <template v-slot:content="slotProps">
       <el-tooltip
@@ -65,6 +68,11 @@ export default {
           label: '审核时间',
           prop: 'status',
           render: (row) => row.status === 1 ? '已发布' : row.status === 2 ? '发布中' : '未发布'
+        },
+        {
+          label: '状态',
+          prop: 'handleStatus',
+          render: (row) => row.handleStatus === 1 ? '正常' : '停用'
         }
       ],
       tableOptions: {
@@ -86,56 +94,50 @@ export default {
             method: (index,row) => {
               this.handleDel(index,row);
             }
+          },
+          {
+            label: '禁用',
+            disabled: true,
+            method: (index,row) => {}
+          },
+          {
+            label: '启用',
+            method: (index,row) => {}
           }
         ]
       },
-      /**
-       * // 表格操作按钮
-const operates = that => [
-  {
-    label: "编辑",
-    isShow: row => {
-      return row.status !== 2;
-    },
-    disabled: row => {
-      return row.disabled === 2;
-    },
-    method: row => {
-      that.handleNewJump(row);
-    }
-  }
-];
-       */
       tableData: [
         {
           registerTime: "2016-05-02",
           title: "王小虎",
           status: 1,
           content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈',
-          quality: '查看'
+          quality: '查看',
+          handleStatus: 1 // 正常
         },
         {
           registerTime: "2016-05-02",
           title: "王小虎",
           status: 2,
-          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈'
-
+          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈',
+          handleStatus: 2 //停用
         },
         {
           registerTime: "2016-05-02",
           title: "王小虎",
           status: 3,
-          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈'
-
+          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈',
+          handleStatus: 2
         },
         {
           registerTime: "2016-05-02",
           title: "王小虎",
           status: 1,
-          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈'
-
+          content: '意见反馈意见反馈意见反馈意见反馈意见反馈意见反馈',
+          handleStatus: 1
         },
       ],
+      hasPagination: false
     }
   },
   mounted() {
@@ -157,6 +159,12 @@ const operates = that => [
     },
     handleDel(index,row) {
       console.log(index,row,'删除');
+    },
+    handleSizeChange(val) {
+      console.log(val,'pageSize改变');
+    },
+    handleCurrentChange(val) {
+      console.log(val,'当前页改变');
     }
   },
   components: {
