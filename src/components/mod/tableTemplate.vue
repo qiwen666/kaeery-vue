@@ -166,6 +166,16 @@ export default {
       this.$emit("handleSizeChange", val);
     },
   },
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页${val}条`);
+      this.$emit("handleSizeChange",val);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前${val}页`);
+      this.$emit("handleCurrentChange",val);
+    }
+  }
 };
 </script>
 
