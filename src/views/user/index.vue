@@ -23,7 +23,7 @@
         </el-tooltip>
       </template>
       <template v-slot:quality="slotProps">
-        <span class="operator">{{ slotProps.row.quality }}</span>
+        <span class="operator" @click="showUpload">{{ slotProps.row.quality }}</span>
       </template>
 
       <!-- <template v-slot="slotProps">
@@ -49,11 +49,15 @@
         >
       </template>
     </table-template>
+
+    <upload :isShow.sync="isShow"/>
+
   </div>
 </template>
 
 <script>
 import tableTemplate from "@/components/mod/tableTemplate";
+import upload from "@/components/mod/upload";
 
 export default {
   filters: {
@@ -173,6 +177,7 @@ export default {
           handleStatus: 2,
         },
       ],
+      isShow: false //上传组件显示与否
     };
   },
   mounted() {
@@ -231,10 +236,16 @@ export default {
     },
     handleSizeChange(val) {
       console.log(`每页${val}条`);
+    },
+
+    // 上传组件
+    showUpload() {
+      this.isShow = !this.isShow;
     }
   },
   components: {
     tableTemplate,
+    upload
   },
 };
 </script>
