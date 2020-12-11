@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="user-top">
-      <el-input v-model="keyword" placeholder="根据用户昵称搜索"></el-input>
-      <el-button plain icon="el-icon-search">搜索</el-button>
+      <el-input v-model="keyword" :prefix-icon="searchIcon" @input="getKeyword" placeholder="根据用户昵称搜索"></el-input>
+      <!-- <el-button plain icon="el-icon-search">搜索</el-button> -->
     </div>
     <table-template
       :columns="tableHeader"
@@ -177,7 +177,8 @@ export default {
           handleStatus: 2,
         },
       ],
-      isShow: false //上传组件显示与否
+      isShow: false, //上传组件显示与否
+      searchIcon: 'el-icon-search' //关键词图标
     };
   },
   mounted() {
@@ -238,6 +239,16 @@ export default {
       console.log(`每页${val}条`);
     },
 
+    // 关键词使用防抖
+    getKeyword() {
+      this.searchIcon = 'el-icon-loading';
+      const vm = this;
+      clearTimeout(vm.timer)
+      vm.timer = setTimeout(() => {
+        console.log(this.keyword,'关键词');
+        this.searchIcon = 'el-icon-search';
+      },1000)
+    },
     // 上传组件
     showUpload() {
       this.isShow = !this.isShow;

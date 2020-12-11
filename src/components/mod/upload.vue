@@ -8,7 +8,7 @@
     <Process
       :stepList="stepList"
       :step="step"
-      :activeCircleColor="activeCircleColor"
+      :activeColor="activeColor"
     />
     <span slot="footer" class="dialog-footer">
       <el-button @click="handlePrev($event)">{{
