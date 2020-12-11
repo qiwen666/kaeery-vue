@@ -8,6 +8,8 @@ const role = () => import('@/views/user/role/index');
 const createRole = () => import('@/views/user/role/createRole');
 const article = () => import('@/views/content/article');
 const system = () => import('@/views/system/index');
+const manger = () => import('@/views/permission/manger');
+const setRole = () => import('@/views/permission/role');
 
 Vue.use(VueRouter)
 
@@ -106,7 +108,38 @@ export const asyncRoutes = [
         }
       }
     ]
-  }
+  },
+  {
+    path: '/qualityInfo',
+    component: Home,
+    name: '权限管理',
+    redirect: 'manger',
+    meta: {
+      role: ['财务人员'],
+      icon: 'el-icon-user'
+    },
+    children: [
+      {
+        path: 'manger',
+        component: manger,
+        name: '后台管理员',
+        meta: {
+          role: ['财务人员'],
+          icon: 'el-icon-setting',
+        }
+      },
+      {
+        path: 'role',
+        component: setRole,
+        name: '角色管理',
+        meta: {
+          role: ['财务人员'],
+          icon: 'el-icon-setting',
+        }
+      }
+
+    ]
+  },
 ]
 
 const router = new VueRouter({
