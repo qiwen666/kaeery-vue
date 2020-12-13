@@ -5,11 +5,13 @@
       <div class="circle-wrapper" :style="{ width: circleWidth + 'px' }">
         <div
           class="circle"
-          :style="index + 1 === step ? { backgroundColor: activeColor } : ''"
+          :style="index + 1 === step ? { background: activeColor } : ''"
         >
           {{ index + 1 }}
         </div>
-        <span >{{ item }}</span>
+        <span :style="index + 1 === step ? { color: activeColor } : ''">{{
+          item
+        }}</span>
       </div>
       <!-- 线 -->
       <div
@@ -37,15 +39,15 @@ export default {
     },
     activeColor: {
       type: String,
-      default: '#409EFF'
+      default: "#409EFF",
     },
     circleWidth: {
       type: Number,
-      default: 80
+      default: 80,
     },
     lineWidth: {
       type: Number,
-      default: 90
+      default: 90,
     },
   },
 };

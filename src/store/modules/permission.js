@@ -12,6 +12,15 @@ export function filterAsyncRoutes(routes, roles) {
   const res = []
 
   routes.forEach(route => {
+    // if(route.children) {
+    //   route.children.filter(child => {
+    //     if(child.children&&child.children[0].hidden) {
+    //       console.log(child.children,'child children');
+    //       // child.children = null
+    //       // child.children.splice(0,1)
+    //     }
+    //   })  
+    // }
     const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {

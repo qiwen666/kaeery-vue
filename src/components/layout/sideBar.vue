@@ -19,7 +19,7 @@
             </template>
             <el-menu-item-group >
               <template v-for="child in item.children">
-                <el-menu-item :index="item.path + '/' + child.path" v-if="!child.children" :key="child.name">{{child.name}}</el-menu-item>
+                <el-menu-item :index="item.path + '/' + child.path" v-if="!child.children ||child.children.length === 0" :key="child.name">{{child.name}}</el-menu-item>
               </template>
             </el-menu-item-group>
             <!-- 三级目录 user/role/create-->
@@ -55,8 +55,20 @@ export default {
       routers: []
     }
   },
+
   mounted() {
     this.routers = JSON.parse(localStorage.getItem('menus'));
+    this.routers.forEach(route => {
+      if(route.children) {
+        console.log(route.children);
+        route.children.filter(child => {
+          if(child.children&&child.children[0].hidden) {
+            child.children.splice(0,1)
+          }
+        })  
+      }
+    })
+
   },
   computed: {
     activeMenu() {

@@ -1,16 +1,18 @@
 <template>
   <div>
     <div class=role-btn>
-      <el-button class="add"><i class="el-icon-plus"></i>添加角色</el-button>
+      <el-button class="add" @click="add"><i class="el-icon-plus"></i>添加角色</el-button>
       <el-button class="edit"><i class="el-icon-edit"></i>编辑</el-button>
       <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
     </div>
     <table-template :columns="columns" :tableOptions="tableOptions" :tableData="tableData"></table-template>
+    <add-role :isShow.sync="isShow"></add-role>
   </div>
 </template>
 
 <script>
 import tableTemplate from "@/components/mod/tableTemplate";
+import addRole from "@/components/dialogs/addRole";
 
 export default {
   data() {
@@ -41,8 +43,8 @@ export default {
           roleName: 2,
           description: '测试角色'
         }
-
-      ]
+      ],
+      isShow: false
     }
   },
   mounted() {
@@ -58,8 +60,16 @@ export default {
     ];
     this.$store.commit('SET_BREADCRUMB',breadcrumb); 
   },
+  methods: {
+    // 添加角色
+    add() {
+      this.isShow = !this.isShow;
+      // this.$router.push('/qualityInfo/role/add').catch(() => {})
+    }
+  },
   components: {
-    tableTemplate
+    tableTemplate,
+    addRole
   }
 }
 </script>

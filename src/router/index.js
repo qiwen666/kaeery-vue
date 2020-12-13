@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import routerView from '@/views/permission/routerview.vue' //云盘转路由页面
 
+const flag = true;
 const login = () => import('@/views/Login');
 const user = () => import('@/views/user/index');
 const role = () => import('@/views/user/role/index');
@@ -10,6 +12,7 @@ const article = () => import('@/views/content/article');
 const system = () => import('@/views/system/index');
 const manger = () => import('@/views/permission/manger');
 const setRole = () => import('@/views/permission/role');
+const addRole = () => import('@/views/permission/addRole');
 
 Vue.use(VueRouter)
 
@@ -32,7 +35,6 @@ export const constantRoutes = [
     ],
     hidden: true
   },
-
 ]
 
 export const asyncRoutes = [
@@ -131,14 +133,22 @@ export const asyncRoutes = [
       {
         path: 'role',
         component: setRole,
-        name: '角色管理',
+        name: '角色设置',
         meta: {
           role: ['财务人员'],
           icon: 'el-icon-setting',
-        }
+        },
+        children: [
+          {
+            path: 'add',
+            component: manger,
+            hidden: true
+          }
+        ]
       }
 
-    ]
+    ],
+
   },
 ]
 
