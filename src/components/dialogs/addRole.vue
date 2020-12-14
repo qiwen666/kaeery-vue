@@ -1,10 +1,11 @@
 <template>
   <el-dialog
     title="收货地址"
+    width="600px"
     :visible.sync="dialogFormVisible"
     @close="closeDialog"
   >
-    <form-template :formItem="formItem" :formHandler="formHandler" :labelPosition="labelPosition">
+    <form-template ref="form" :formItem="formItem" :formData="form" :formHandler="formHandler" :labelPosition="labelPosition">
     </form-template>
   </el-dialog>
 </template>
@@ -20,18 +21,26 @@ export default {
     },
   },
   data() {
+    let validateRole = (rule,value,callback) => {
+      if(!value) {
+        callback(new Error('请输入角色名称'));
+      }else {
+        callback();
+      }
+    }
     return {
       dialogFormVisible: false,
+      // 表单数据
       form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
+        roleName: "",
+        area: "",
+        description: "",
+        hobby: [],
+        sex: null,
+        date: null,
         delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
       },
+      // 表单配置
       formItem: [
         {
           type: "text",
@@ -39,7 +48,8 @@ export default {
           placeholder: "请输入角色名称",
           prop: "roleName",
           labelWidth: "90px",
-          width: "400px"
+          width: "400px",
+          validator: [{ validator: validateRole, trigger: 'blur' }]
         },
         {
           type: "select",
@@ -69,7 +79,6 @@ export default {
         },
         {
           type: "checkbox",
-          model: 'hobby',
           label: "爱好",
           placeholder: "",
           prop: "hobby",
@@ -84,6 +93,7 @@ export default {
               value: 2,
             },
           ],
+          value: []
         },
         {
           type: "radio",
@@ -106,7 +116,7 @@ export default {
           type: "date",
           label: "日期范围",
           placeholder: "请选择日期",
-          prop: "range",
+          prop: "date",
           labelWidth: "90px",
           width: "400px"
         },
@@ -116,7 +126,8 @@ export default {
           placeholder: "",
           prop: "delivery",
           labelWidth: "90px",
-          width: ""
+          width: "",
+          value: false
         },
 
 
@@ -128,7 +139,7 @@ export default {
           {
             label: '确定',
             type: 'primary',
-            handler: () => {}
+            handler: (args) => this.submitForm()
           },
           {
             label: '取消',
@@ -144,6 +155,15 @@ export default {
     closeDialog() {
       this.$emit("update:isShow", false);
     },
+    submitForm() {
+      this.$refs['form'].$refs.form.validate(valid => {
+        if(valid) {
+          console.log(this.form);
+        }else {
+          return false
+        }
+      })
+    }
   },
   watch: {
     isShow(val) {
