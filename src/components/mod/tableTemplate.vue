@@ -3,7 +3,8 @@
     <el-table
       v-loading="loading"
       :header-cell-style="{ 'background-color': '#fbfbfb' }"
-      highlight-current-row
+      :highlight-current-row="tableOptions.highlightCurrentRow"
+      @current-change="selectCureentChange"
       :data="tableData"
       style="width: 100%"
     >
@@ -133,8 +134,8 @@ export default {
           layout: "total, prev, pager, next",
         },
         btnStyle: {
-          color: '',
-          size: null
+          color: "",
+          size: null,
         },
       },
     },
@@ -169,13 +170,18 @@ export default {
   methods: {
     handleSizeChange(val) {
       console.log(`每页${val}条`);
-      this.$emit("handleSizeChange",val);
+      this.$emit("handleSizeChange", val);
     },
     handleCurrentChange(val) {
       console.log(`当前${val}页`);
-      this.$emit("handleCurrentChange",val);
-    }
-  }
+      this.$emit("handleCurrentChange", val);
+    },
+    selectCureentChange(currentRow) {
+      if (this.tableOptions.highlightCurrentRow) {
+        this.$emit("selectCureentChange",currentRow)
+      }
+    },
+  },
 };
 </script>
 

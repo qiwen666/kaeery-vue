@@ -1,10 +1,9 @@
 <template>
   <el-dialog
-    title="添加角色"
-    width="550px"
+    title="收货地址"
+    width="600px"
     :visible.sync="dialogFormVisible"
     @close="closeDialog"
-    custom-class="addrRoleDailog"
   >
     <form-template
       ref="VueForm"
@@ -19,7 +18,6 @@
 
 <script>
 import formTemplate from "@/components/mod/formTemplate";
-import { validateRoleDesc } from "@/utils/validate";
 
 export default {
   props: {
@@ -27,18 +25,26 @@ export default {
       type: Boolean,
       default: false,
     },
-    listInfo: {
-      type: Object,
-      default: () => {}
-    }
   },
   data() {
+    let validateRole = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("请输入角色名称"));
+      } else {
+        callback();
+      }
+    };
     return {
       dialogFormVisible: false,
       // 表单数据
       form: {
         roleName: "",
-        description: ""
+        area: "",
+        description: "",
+        hobby: [1, 2],
+        sex: 1,
+        date: null,
+        delivery: false,
       },
       // 表单配置
       formItem: [
@@ -48,7 +54,25 @@ export default {
           placeholder: "请输入角色名称",
           prop: "roleName",
           width: "400px",
-          validator: [{ validator:  validateRoleDesc, trigger: 'change'}]
+          validator: [{ validator: validateRole, trigger: "blur" }],
+        },
+        {
+          type: "select",
+          label: "角色",
+          placeholder: "请选择角色",
+          prop: "area",
+          width: "",
+          options: [
+            {
+              value: 1,
+              label: "管理员",
+            },
+            {
+              value: 2,
+              label: "财务人员",
+            },
+          ],
+          required: true,
         },
         {
           type: "textarea",
@@ -65,6 +89,49 @@ export default {
               trigger: "change",
             },
           ],
+        },
+        {
+          type: "checkbox",
+          label: "爱好",
+          prop: "hobby",
+          options: [
+            {
+              label: "睡觉",
+              value: 1,
+            },
+            {
+              label: "吃饭",
+              value: 2,
+            },
+          ],
+        },
+        {
+          type: "radio",
+          label: "性别",
+          prop: "sex",
+          options: [
+            {
+              label: "男",
+              value: 1,
+            },
+            {
+              label: "女",
+              value: 2,
+            },
+          ],
+        },
+        {
+          type: "date",
+          label: "日期范围",
+          prop: "date",
+          width: "400px",
+          required: true,
+        },
+        {
+          type: "switch",
+          label: "即时配送",
+          prop: "delivery",
+          width: "",
         },
       ],
       labelPosition: "left",
@@ -90,13 +157,11 @@ export default {
     closeDialog() {
       this.$emit("update:isShow", false);
     },
-    // 提交表单
     submitForm() {
       const self = this.$refs["VueForm"];
       self.$refs.form.validate((valid) => {
         if (valid) {
           console.log(this.form);
-          this.dialogFormVisible = false;
         } else {
           return false;
         }
@@ -105,22 +170,12 @@ export default {
     // 重置表单
     resetForm(formName) {
       this.$refs["VueForm"].$refs[formName].resetFields();
-      this.dialogFormVisible = false;
     },
   },
   watch: {
     isShow(val) {
       this.dialogFormVisible = val;
-      // 重置表单
-      if(this.dialogFormVisible) {
-        this.$nextTick(() => {
-          this.$refs["VueForm"].$refs['form'].resetFields();
-        })
-      }
     },
-    listInfo(val) {
-      this.form = val;
-    }
   },
   components: {
     formTemplate,
@@ -128,10 +183,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.addrRoleDailog {
-  .el-dialog__body {
-    padding: 10px 20px;
-  }
-}
+<style>
 </style>

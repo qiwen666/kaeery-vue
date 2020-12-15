@@ -1,11 +1,17 @@
 <template>
-  <el-form :model="formData" ref="form" :label-position="labelPosition">
+  <el-form
+    ref="form"
+    :model="formData"
+    :label-position="labelPosition"
+    :label-width="labelWidth"
+    :hide-required-asterisk="true"
+  >
     <el-form-item
       v-for="item in formItem"
       :key="item.prop"
       :label="item.label"
-      :label-width="item.labelWidth"
       :prop="item.prop"
+      :rules="item.rules"
     >
       <!-- input -->
       <el-input
@@ -42,7 +48,10 @@
       </el-select>
 
       <!-- checkbox -->
-      <el-checkbox-group v-if="item.type === 'checkbox'" v-model="formData[item.prop]">
+      <el-checkbox-group
+        v-if="item.type === 'checkbox'"
+        v-model="formData[item.prop]"
+      >
         <el-checkbox
           v-for="checkbox_item in item.options"
           :label="checkbox_item.value"
@@ -52,7 +61,10 @@
       </el-checkbox-group>
 
       <!-- radio -->
-      <el-radio-group v-if="item.type === 'radio'" v-model="formData[item.prop]">
+      <el-radio-group
+        v-if="item.type === 'radio'"
+        v-model="formData[item.prop]"
+      >
         <el-radio
           v-for="radio_item in item.options"
           :key="radio_item.label"
@@ -65,12 +77,16 @@
       <el-date-picker
         v-if="item.type === 'date'"
         v-model="formData[item.prop]"
+        value-format="timestamp"
         type="date"
         :placeholder="item.placeholder"
       ></el-date-picker>
 
       <!-- switch -->
-      <el-switch v-if="item.type === 'switch'" v-model="formData[item.prop]"></el-switch>
+      <el-switch
+        v-if="item.type === 'switch'"
+        v-model="formData[item.prop]"
+      ></el-switch>
 
       <!-- slot -->
       <slot v-if="item.type === 'slot'" :name="item.slotName"></slot>
@@ -101,35 +117,62 @@ export default {
     },
     formData: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     formHandler: {
       type: Object,
       default: () => {},
     },
+    labelWidth: {
+      type: String,
+      default: "90px"
+    },
     labelPosition: {
       type: String,
-      default: "Left",
+      default: "left",
     },
   },
   data() {
     return {
+      type_msg: {
+        text: "请输入",
+        textarea: "请输入",
+        select: "请选择",
+        date: "请选择",
+      },
     };
   },
   methods: {
     initData() {
-      
-      // const formData = {};
       this.formItem.forEach((item) => {
-        if(item.validator) {
+        if (item.required) {
+          this.rules(item);
+          // 自定义校验规则
+        }
+        if (item.validator) {
           item.rules = item.validator;
         }
-      //   if (item.prop) {
-      //     // 对象添加属性 var obj = {}; obj.a = 'xxx';
-      //     formData[item.prop] = item.value || null
-      //   }
+
+        //   if (item.prop) {
+        //     // 对象添加属性 var obj = {}; obj.a = 'xxx';
+        //     formData[item.prop] = item.value || null
+        //   }
       });
-      // this.form = formData;
+    },
+    rules(item) {
+      const requiredRules = [
+        {
+          required: true,
+          message:
+            item.required_msg || `${this.type_msg[item.type]}${item.label}`,
+          trigger: "change",
+        },
+      ];
+      if (item.rules && item.rules.length > 0) {
+        item.rules = requiredRules.concat(item.rules);
+      } else {
+        item.rules = requiredRules;
+      }
     },
   },
   watch: {
