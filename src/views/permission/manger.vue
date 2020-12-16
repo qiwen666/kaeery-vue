@@ -3,7 +3,7 @@
     <div class="operate-btn">
       <el-button @click="add"><i class="el-icon-plus"></i>添加管理员</el-button>
       <el-button @click="edit"><i class="el-icon-edit"></i>编辑</el-button>
-      <el-button>重置密码</el-button>
+      <el-button @click="resetPwd">重置密码</el-button>
       <el-button><i class="el-icon-delete"></i>删除</el-button>
     </div>
     <table-template
@@ -16,12 +16,14 @@
 
     </table-template>
     <add-manger ref="addManger" :isShow.sync="isShow" @submitForm="submitForm" :listInfo="listInfo"></add-manger>
+    <reset-password></reset-password>
   </div>
 </template>
 
 <script>
 import tableTemplate from "@/components/mod/tableTemplate";
 import addManger from "@/components/dialogs/addManger";
+import resetPassword from "@/components/dialogs/resetPassword";
 
 export default {
   data() {
@@ -99,7 +101,8 @@ export default {
   },
   components: {
     tableTemplate,
-    addManger
+    addManger,
+    resetPassword
   }
 }
 </script>
