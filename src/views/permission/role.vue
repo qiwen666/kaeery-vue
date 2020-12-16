@@ -1,21 +1,22 @@
 <template>
   <div>
     <div class="role-btn">
-      <el-button class="add" @click="add"
+      <el-button class="add" @click="showDialog(1)"
         ><i class="el-icon-plus"></i>添加角色</el-button
       >
-      <el-button class="edit" @click="edit"
+      <el-button class="edit" @click="showDialog(2)"
         ><i class="el-icon-edit"></i>编辑</el-button
       >
-      <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
+      <el-button type="danger" @click="remove"><i class="el-icon-delete"></i>删除</el-button>
     </div>
     <table-template
+      ref="singleTable"
       :columns="columns"
       :tableOptions="tableOptions"
       :tableData="tableData"
       @selectCureentChange="selectCureentChange"
     ></table-template>
-    <add-role :isShow.sync="isShow" :listInfo="selectRow"></add-role>
+    <add-role ref="addRoleDialog" :isShow.sync="isShow" :listInfo="selectRow" :title="title" @cancel="cancel"></add-role>
   </div>
 </template>
 
@@ -63,7 +64,8 @@ export default {
         },
       ],
       isShow: false,
-      selectRow: {}
+      selectRow: {},
+      title: "添加角色"
     };
   },
   mounted() {
@@ -81,20 +83,43 @@ export default {
   },
   methods: {
     // 添加角色
-    add() {
-      this.isShow = !this.isShow;
-    },
-    // 编辑角色
-    edit() {
-      if(!this.selectRow.id) {
-        this.$message.warning('请选中一行数据');
+    // add() {
+    //   this.isShow = !this.isShow;
+    //   this.title = "添加角色"
+    // },
+    // // 编辑角色
+    // edit() {
+    //   if(!this.selectRow.id) {
+    //     this.$message.warning('请选中一行数据');
+    //   }else {
+    //     this.isShow = true
+    //     this.title = "编辑角色"
+    //   }
+    // },
+    showDialog(index) {
+      // index && index === 1 ? this.isShow = true : this.selectRow.id ? this.isShow = true : this.$message.warning('请选中一行数据')
+      // ;
+
+      if(index === 1) {
+          this.$refs['addRoleDialog'].reset()
       }else {
-        this.isShow = true
+        if(!this.selectRow.id) {
+          this.$message.warning('请选中一行数据')
+          return false
+        }
+        
       }
+      this.isShow = true;
+
     },
-    // 选中当前行
+    // 删除
+    remove() {},    // 选中当前行
     selectCureentChange(currentRow) {
-      this.selectRow = Object.assign({}, currentRow);
+      this.selectRow = JSON.parse(JSON.stringify(currentRow))
+    },
+    // 取消选中
+    cancel() {
+      this.$refs.singleTable.$refs['table'].setCurrentRow();
     }
   },
   components: {

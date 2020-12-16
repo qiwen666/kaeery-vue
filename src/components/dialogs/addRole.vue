@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="添加角色"
+    :title="title"
     width="550px"
     :visible.sync="dialogFormVisible"
     @close="closeDialog"
@@ -30,6 +30,10 @@ export default {
     listInfo: {
       type: Object,
       default: () => {}
+    },
+    title: {
+      type: String,
+      default: "添加角色"
     }
   },
   data() {
@@ -80,7 +84,10 @@ export default {
           {
             label: "取消",
             type: "",
-            handler: () => this.resetForm("form"),
+            handler: () => {
+              this.resetForm("form");
+              this.$emit("cancel")
+            }
           },
         ],
       },
@@ -89,6 +96,7 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("update:isShow", false);
+      this.resetForm('form')
     },
     // 提交表单
     submitForm() {
@@ -107,20 +115,36 @@ export default {
       this.$refs["VueForm"].$refs[formName].resetFields();
       this.dialogFormVisible = false;
     },
+    reset() {
+        this.$nextTick(() => {
+          this.$refs["VueForm"].$refs['form'].resetFields();
+        })
+
+    }
   },
   watch: {
     isShow(val) {
       this.dialogFormVisible = val;
       // 重置表单
-      if(this.dialogFormVisible) {
-        this.$nextTick(() => {
-          this.$refs["VueForm"].$refs['form'].resetFields();
-        })
-      }
+      // if(this.dialogFormVisible) {
+      //   this.$nextTick(() => {
+      //     this.$refs["VueForm"].$refs['form'].resetFields();
+      //   })
+      // }
     },
     listInfo(val) {
-      this.form = val;
-    }
+      if(val) {
+        this.form = val;
+      }
+    },
+    // title(val) {
+    //   if(val === '添加角色') {
+    //     // this.$refs["VueForm"].$refs['form'].resetFields();
+    //     this.form = {}
+    //   }else {
+    //     this.form = this.listInfo;
+    //   }
+    // }
   },
   components: {
     formTemplate,
