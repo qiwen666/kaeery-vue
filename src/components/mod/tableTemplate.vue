@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <el-table
-    ref="table"
+      ref="tableTemplate"
       v-loading="loading"
       :header-cell-style="{ 'background-color': '#fbfbfb' }"
       :highlight-current-row="tableOptions.highlightCurrentRow"

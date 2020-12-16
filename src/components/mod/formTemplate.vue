@@ -95,7 +95,7 @@
     <!-- 按钮 -->
     <el-form-item
       :label-width="formHandler.labelWidth"
-      :style="{ textAlign: 'left' }"
+      :style="{ textAlign: formHandler.position }"
     >
       <el-button
         v-for="handle_item in formHandler.options"
@@ -121,7 +121,9 @@ export default {
     },
     formHandler: {
       type: Object,
-      default: () => {},
+      default: () => {
+        position: "left"
+      },
     },
     labelWidth: {
       type: String,
@@ -144,6 +146,7 @@ export default {
   },
   methods: {
     initData() {
+      console.log(this.formItem,'formItem');
       this.formItem.forEach((item) => {
         if (item.required) {
           this.rules(item);
