@@ -7,15 +7,16 @@
       <el-button class="edit" @click="edit"
         ><i class="el-icon-edit"></i>编辑</el-button
       >
-      <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
+      <el-button type="danger" @click="remove"><i class="el-icon-delete"></i>删除</el-button>
     </div>
     <table-template
+      ref="table"
       :columns="columns"
       :tableOptions="tableOptions"
       :tableData="tableData"
       @selectCureentChange="selectCureentChange"
     ></table-template>
-    <add-role :isShow.sync="isShow" :listInfo="selectRow"></add-role>
+    <add-role ref="addRole" :isShow.sync="isShow" :listInfo="listInfo" @cancelSelect="cancelSelect" :title="title"></add-role>
   </div>
 </template>
 
@@ -63,7 +64,9 @@ export default {
         },
       ],
       isShow: false,
-      selectRow: {}
+      selectRow: {},
+      listInfo: {},
+      title: ""
     };
   },
   mounted() {
@@ -83,18 +86,51 @@ export default {
     // 添加角色
     add() {
       this.isShow = !this.isShow;
+      this.title = "添加角色"
+      this.$refs['addRole'].reset()
     },
     // 编辑角色
     edit() {
       if(!this.selectRow.id) {
         this.$message.warning('请选中一行数据');
+        return false
       }else {
         this.isShow = true
+        this.title = "编辑角色"
+        this.listInfo = this.selectRow;
       }
+    },
+    // 删除
+    remove() {
+      this.selectRow.id ? this.removeTips() : this.$message.warning("请选中一行数据")
+    },
+    // 删除提示
+    removeTips() {
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        this.cancelSelect()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });    
+        this.cancelSelect()      
+        });    
     },
     // 选中当前行
     selectCureentChange(currentRow) {
       this.selectRow = Object.assign({}, currentRow);
+    },
+    // 取消选中当前行
+    cancelSelect() {
+      this.$refs['table'].$refs.tableTemplate.setCurrentRow();
     }
   },
   components: {

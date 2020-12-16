@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="添加角色"
+    :title="title"
     width="550px"
     :visible.sync="dialogFormVisible"
     @close="closeDialog"
@@ -30,6 +30,10 @@ export default {
     listInfo: {
       type: Object,
       default: () => {}
+    },
+    title: {
+      type: String,
+      default: "添加角色"
     }
   },
   data() {
@@ -80,7 +84,10 @@ export default {
           {
             label: "取消",
             type: "",
-            handler: () => this.resetForm("form"),
+            handler: () => {
+              this.resetForm("form")
+              this.$emit("cancelSelect")
+            }
           },
         ],
       },
@@ -96,31 +103,57 @@ export default {
       self.$refs.form.validate((valid) => {
         if (valid) {
           console.log(this.form);
+          // 添加角色后，弹框消失， 清空内容和校验规则,取消选中
           this.dialogFormVisible = false;
+          this.$nextTick(() => {
+            this.$refs["VueForm"].$refs['form'].clearValidate()
+          })
+          this.$parent.cancelSelect()
+
         } else {
           return false;
         }
       });
     },
     // 重置表单
+    // 取消操作，弹框消失，清空内容
     resetForm(formName) {
-      this.$refs["VueForm"].$refs[formName].resetFields();
       this.dialogFormVisible = false;
+      this.$refs["VueForm"].$refs[formName].resetFields();
+      for(let key in this.form) {
+        this.form[key] = ""
+      }
     },
+    // 编辑与添加共用一个弹框，点击编辑后，再点击新增，数据不重新初始化的解决方法
+    reset() {
+      this.$nextTick(() => {
+        this.$refs["VueForm"].$refs["form"].clearValidate();
+      })
+      for(let key in this.form) {
+        this.form[key] = ""
+      }
+    }
   },
   watch: {
     isShow(val) {
       this.dialogFormVisible = val;
+      // this.form = {
+      //   roleName: "",
+      //   description: ""
+      // }
       // 重置表单
-      if(this.dialogFormVisible) {
-        this.$nextTick(() => {
-          this.$refs["VueForm"].$refs['form'].resetFields();
-        })
-      }
+      // if(this.dialogFormVisible) {
+        // this.$nextTick(() => {
+        //   this.$refs["VueForm"].$refs['form'].resetFields();
+        // })
+      // }
     },
     listInfo(val) {
-      this.form = val;
-    }
+      if(val) {
+        this.form = val;
+      }
+      
+    },
   },
   components: {
     formTemplate,
