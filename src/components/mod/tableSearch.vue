@@ -48,7 +48,7 @@
       <slot v-if="item.type === 'slot'" :name="item.name"></slot>
     </el-form-item>
     <!-- 按钮 -->
-    <el-form-item>
+    <el-form-item v-if="searchHandler">
       <template v-for="item in searchHandler">
         <el-button
           v-if="item.element === 'button'"
