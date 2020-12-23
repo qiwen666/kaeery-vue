@@ -1,22 +1,45 @@
 <template>
   <div>
     <div class="role-btn">
-      <el-button class="add" @click="showDialog(1)"
+      <el-button class="add" @click="add"
         ><i class="el-icon-plus"></i>添加角色</el-button
       >
-      <el-button class="edit" @click="showDialog(2)"
+      <el-button class="edit" @click="edit"
         ><i class="el-icon-edit"></i>编辑</el-button
       >
-      <el-button type="danger" @click="remove"><i class="el-icon-delete"></i>删除</el-button>
+      <el-button type="danger" @click="remove"
+        ><i class="el-icon-delete"></i>删除</el-button
+      >
     </div>
+
+    <tableSearch
+      :searchItem="searchItem"
+      :searchHandler="searchHandler"
+      @callbackSelect="callbackSelect"
+      @callbackDate="callbackDate"
+      @callbackKeyword="callbackKeyword"
+    >
+      <template #keyword>
+        <el-input-number v-model="num" @change="handleChange"></el-input-number>
+      </template>
+    </tableSearch>
+
     <table-template
       ref="table"
       :columns="columns"
       :tableOptions="tableOptions"
       :tableData="tableData"
+      :searchItem="searchItem"
       @selectCureentChange="selectCureentChange"
     ></table-template>
-    <add-role ref="addRole" :isShow.sync="isShow" :listInfo="listInfo" @cancelSelect="cancelSelect" :title="title"></add-role>
+    <add-role
+      ref="addRole"
+      :isShow.sync="isShow"
+      :listInfo="listInfo"
+      @submitForm="submitForm"
+      @cancelSelect="cancelSelect"
+      :title="title"
+    ></add-role>
   </div>
 </template>
 
@@ -24,8 +47,11 @@
 import tableTemplate from "@/components/mod/tableTemplate";
 import addRole from "@/components/dialogs/addRole";
 import { formatContent } from "@/utils/common";
+import tableSearch from "@/components/mod/tableSearch";
+import role from "./role.js";
 
 export default {
+  mixins: [role],
   data() {
     return {
       columns: [
@@ -63,10 +89,20 @@ export default {
             "测试角色测试角色测试角色测试角色测试角色测试角色测试角色测试角色",
         },
       ],
+      searchItem: [
+        { label: "订单状态", prop: "orderStatus", type: "select", width: "180px", options: "orderStatus" },
+        { label: "日期范围", prop: "range", type: "date" },
+        { label: "关键字搜索", prop: "keyword", type: "input", placeholder: "请输入内容" },
+        { label: "空间容量", prop: "spaceCapcity", type: "slot", name: "keyword" },
+      ],
+      searchHandler: [
+        // { label: "导出账单", element: "button", handler: () => { this.showDialog() }},
+      ],
       isShow: false,
       selectRow: {},
       listInfo: {},
-      title: ""
+      title: "",
+      num: "",
     };
   },
   mounted() {
@@ -82,49 +118,55 @@ export default {
     ];
     this.$store.commit("SET_BREADCRUMB", breadcrumb);
   },
+  created() {
+    this.getTableList();
+  },
   methods: {
     // 添加角色
     add() {
       this.isShow = !this.isShow;
-      this.title = "添加角色"
-      this.$refs['addRole'].reset()
+      this.title = "添加角色";
+      this.$refs["addRole"].reset();
     },
     // 编辑角色
     edit() {
-      if(!this.selectRow.id) {
-        this.$message.warning('请选中一行数据');
-        return false
-      }else {
-        this.isShow = true
-        this.title = "编辑角色"
+      if (!this.selectRow.id) {
+        this.$message.warning("请选中一行数据");
+        return false;
+      } else {
+        this.isShow = true;
+        this.title = "编辑角色";
         this.listInfo = this.selectRow;
       }
       this.isShow = true;
-
     },
     // 删除
     remove() {
-      this.selectRow.id ? this.removeTips() : this.$message.warning("请选中一行数据")
+      this.selectRow.id
+        ? this.removeTips()
+        : this.$message.warning("请选中一行数据");
     },
     // 删除提示
     removeTips() {
-      this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-        }).then(() => {
+      this.$confirm("此操作将永久删除该角色, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
           this.$message({
-            type: 'success',
-            message: '删除成功!'
+            type: "success",
+            message: "删除成功!",
           });
-        this.cancelSelect()
-        }).catch(() => {
+          this.cancelSelect();
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });    
-        this.cancelSelect()      
-        });    
+            type: "info",
+            message: "已取消删除",
+          });
+          this.cancelSelect();
+        });
     },
     // 选中当前行
     selectCureentChange(currentRow) {
@@ -132,12 +174,25 @@ export default {
     },
     // 取消选中当前行
     cancelSelect() {
-      this.$refs['table'].$refs.tableTemplate.setCurrentRow();
-    }
+      this.$refs["table"].$refs.tableTemplate.setCurrentRow();
+    },
+    // 添加角色
+    submitForm(args) {
+      console.log(args,'submitForm');
+    },
+    getTableList() {
+      let searchInfo = {
+        orderStatus: this.orderStatus,
+        range: this.range,
+        keyword: this.keyword,
+      };
+      console.log(searchInfo, "请求参数");
+    },
   },
   components: {
     tableTemplate,
     addRole,
+    tableSearch,
   },
 };
 </script>

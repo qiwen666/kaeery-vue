@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './modules/user';
 import permission from './modules/permission';
+import config from './modules/config';
 
 import state from './state';
 import getters from './getters';
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   getters,
   modules: {
     user,
-    permission
+    permission,
+    config
   }
 })

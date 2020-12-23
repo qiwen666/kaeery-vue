@@ -1,5 +1,6 @@
 <template>
   <div class="table-container">
+    <!-- 表格 -->
     <el-table
       ref="tableTemplate"
       v-loading="loading"
@@ -103,6 +104,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     loading: {
@@ -158,15 +160,8 @@ export default {
     },
   },
   data() {
-    return {};
-  },
-  methods: {
-    handleCurrentChange(val) {
-      this.$emit("handleCurrentChange", val);
-    },
-    handleSizeChange(val) {
-      this.$emit("handleSizeChange", val);
-    },
+    return {
+    };
   },
   methods: {
     handleSizeChange(val) {
