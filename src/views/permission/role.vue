@@ -48,7 +48,7 @@ import tableTemplate from "@/components/mod/tableTemplate";
 import addRole from "@/components/dialogs/addRole";
 import { formatContent } from "@/utils/common";
 import tableSearch from "@/components/mod/tableSearch";
-import role from "./role.js";
+import role from "@/mixins/role";
 
 export default {
   mixins: [role],
@@ -93,7 +93,7 @@ export default {
         { label: "订单状态", prop: "orderStatus", type: "select", width: "180px", options: "orderStatus" },
         { label: "日期范围", prop: "range", type: "date" },
         { label: "关键字搜索", prop: "keyword", type: "input", placeholder: "请输入内容" },
-        { label: "空间容量", prop: "spaceCapcity", type: "slot", name: "keyword" },
+        // { label: "空间容量", prop: "spaceCapcity", type: "slot", name: "keyword" },
       ],
       searchHandler: [
         // { label: "导出账单", element: "button", handler: () => { this.showDialog() }},
