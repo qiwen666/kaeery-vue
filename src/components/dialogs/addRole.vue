@@ -96,21 +96,18 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("update:isShow", false);
-      this.resetForm('form')
+      // this.resetForm('form')
     },
     // 提交表单
     submitForm() {
+      console.log(this.form, 'this.form');
       const self = this.$refs["VueForm"];
       self.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(this.form);
+          console.log(this.form,'this.form');
           // 添加角色后，弹框消失， 清空内容和校验规则,取消选中
+          this.$emit("submitForm", this.form)
           this.dialogFormVisible = false;
-          this.$nextTick(() => {
-            this.$refs["VueForm"].$refs['form'].clearValidate()
-          })
-          this.$parent.cancelSelect()
-
         } else {
           return false;
         }
