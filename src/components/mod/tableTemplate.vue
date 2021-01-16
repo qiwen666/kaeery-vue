@@ -7,6 +7,7 @@
       :header-cell-style="{ 'background-color': '#fbfbfb' }"
       :highlight-current-row="tableOptions.highlightCurrentRow"
       @current-change="selectCureentChange"
+      @selection-change="tableSelectChange"
       :data="tableData"
       style="width: 100%"
     >
@@ -84,22 +85,26 @@
       </el-table-column>
     </el-table>
 
-    <!-- 分页 -->
-    <el-pagination
-      class="pagination"
-      background
-      :layout="
-        tableOptions.pageExtend && tableOptions.pageExtend.layout
-          ? tableOptions.pageExtend.layout
-          : 'total, prev, pager, next'
-      "
-      :current-page="pagination.currentPage"
-      :page-size="pagination.pageSize"
-      :total="pagination.total"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
-    >
-    </el-pagination>
+    <div class="tableFooter">
+      <slot name="tableLeft" ></slot>
+      <!-- 分页 -->
+      <el-pagination
+        class="pagination"
+        background
+        :layout="
+          tableOptions.pageExtend && tableOptions.pageExtend.layout
+            ? tableOptions.pageExtend.layout
+            : 'total, prev, pager, next'
+        "
+        :current-page="pagination.currentPage"
+        :page-size="pagination.pageSize"
+        :total="pagination.total"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+      >
+      </el-pagination>
+
+    </div>
   </div>
 </template>
 
@@ -158,6 +163,10 @@ export default {
         };
       },
     },
+    tableRow: {
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {
@@ -177,15 +186,29 @@ export default {
         this.$emit("selectCureentChange",currentRow)
       }
     },
+    tableSelectChange(val) {
+      console.log(val,'选中值');
+      const requestData = {
+        userId: val.map(item => item.id)
+      }
+      console.log(requestData);
+      this.$emit("update:tableRow",requestData)
+    }
   },
 };
 </script>
 
 <style lang="scss">
 .table-container {
-  .pagination {
+  .tableFooter {
+    display: flex;
+    justify-content: space-between;
     margin-top: 20px;
-    text-align: right;
+
+    .pagination {
+      // text-align: right;
+    }
+
   }
 }
 </style>
