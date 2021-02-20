@@ -1,0 +1,140 @@
+@font-face {
+  font-family: 'cloud-disk';
+  src:  url('fonts/cloud-disk.eot?ox4pf3');
+  src:  url('fonts/cloud-disk.eot?ox4pf3#iefix') format('embedded-opentype'),
+    url('fonts/cloud-disk.ttf?ox4pf3') format('truetype'),
+    url('fonts/cloud-disk.woff?ox4pf3') format('woff'),
+    url('fonts/cloud-disk.svg?ox4pf3#cloud-disk') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'cloud-disk' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-profile:before {
+  content: "\e900";
+  color: #5f94ff;
+}
+.icon-add:before {
+  content: "\e901";
+  color: #606266;
+}
+.icon-message:before {
+  content: "\e902";
+  color: #5f94ff;
+}
+.icon-apply:before {
+  content: "\e903";
+}
+.icon-notice:before {
+  content: "\e904";
+  color: #5f94ff;
+}
+.icon-operateLog:before {
+  content: "\e905";
+}
+.icon-loginLog:before {
+  content: "\e906";
+  color: #5f94ff;
+}
+.icon-attendanceSet:before {
+  content: "\e907";
+}
+.icon-attendanceDetail:before {
+  content: "\e908";
+  color: #5f94ff;
+}
+.icon-personnel:before {
+  content: "\e909";
+}
+.icon-manpower:before {
+  content: "\e90a";
+  color: #5f94ff;
+}
+.icon-contractRenewal:before {
+  content: "\e90b";
+  color: #fff;
+}
+.icon-addApply:before {
+  content: "\e90c";
+  color: #fff;
+}
+.icon-setRole:before {
+  content: "\e90d";
+  color: #fff;
+}
+.icon-edit:before {
+  content: "\e90e";
+  color: #606266;
+}
+.icon-del:before {
+  content: "\e90f";
+  color: #909399;
+}
+.icon-look:before {
+  content: "\e910";
+  color: #909399;
+}
+.icon-setPosition:before {
+  content: "\e911";
+  color: #fff;
+}
+.icon-delUser:before {
+  content: "\e912";
+  color: #fff;
+}
+.icon-addUser:before {
+  content: "\e913";
+  color: #fff;
+}
+.icon-logout:before {
+  content: "\e914";
+  color: #fff;
+}
+.icon-4:before {
+  content: "\e915";
+  color: #fff;
+}
+.icon--1249:before {
+  content: "\e916";
+  color: #606266;
+}
+.icon-department:before {
+  content: "\e917";
+  color: #606266;
+}
+.icon-set:before {
+  content: "\e918";
+  color: #909399;
+}
+.icon-enterprise:before {
+  content: "\e919";
+}
+.icon-contract:before {
+  content: "\e91a";
+}
+.icon-PersonnelChange:before {
+  content: "\e91b";
+}
+.icon-ManpowerInfo:before {
+  content: "\e91c";
+  color: #5f94ff;
+}
+.icon-logo:before {
+  content: "\e941";
+  color: #fff;
+}

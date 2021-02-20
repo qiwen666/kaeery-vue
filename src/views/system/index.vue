@@ -1,5 +1,7 @@
 <template>
-  <div>系统管理</div>
+  <div>系统管理
+    <i class="icon-add"></i>
+  </div>
 </template>
 
 <script>

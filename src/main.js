@@ -10,6 +10,7 @@ Vue.use(ElementUI);
 
 // import scss
 import './assets/scss/style.scss';
+import './assets/personal/style.css';
 
 import permission from './permission';
 
