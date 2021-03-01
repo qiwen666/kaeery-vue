@@ -49,6 +49,7 @@ import addRole from "@/components/dialogs/addRole";
 import { formatContent } from "@/utils/common";
 import tableSearch from "@/components/mod/tableSearch";
 import role from "@/mixins/role";
+import { showMessage, createEnum } from '../../utils/showMessage'
 
 export default {
   mixins: [role],
@@ -154,17 +155,11 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+          showMessage(0)
           this.cancelSelect();
         })
         .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
+          showMessage(3)
           this.cancelSelect();
         });
     },
