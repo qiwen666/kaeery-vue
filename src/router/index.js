@@ -12,7 +12,6 @@ const article = () => import('@/views/content/article');
 const system = () => import('@/views/system/index');
 const manger = () => import('@/views/permission/manger');
 const setRole = () => import('@/views/permission/role');
-const addRole = () => import('@/views/permission/addRole');
 
 Vue.use(VueRouter)
 
@@ -138,13 +137,13 @@ export const asyncRoutes = [
           role: ['财务人员'],
           icon: 'el-icon-setting',
         },
-        children: [
-          {
-            path: 'add',
-            component: manger,
-            hidden: true
-          }
-        ]
+        // children: [
+        //   {
+        //     path: 'add',
+        //     component: manger,
+        //     hidden: true
+        //   }
+        // ]
       }
 
     ],

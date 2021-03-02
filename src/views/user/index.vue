@@ -9,6 +9,7 @@
       :tableOptions="tableOptions"
       :tableHandle="tableHandle"
       :tableData="tableData"
+      :tableRow.sync="tableRow"
       @handleCurrentChange="handleCurrentChange"
       @handleSizeChange="handleSizeChange"
     >
@@ -47,6 +48,10 @@
           @click="handleAction(slotProps.data.id, 'disable')"
           >禁用</el-button
         >
+      </template>
+
+      <template #tableLeft>
+        <el-button plain @click="del">批量删除</el-button>
       </template>
     </table-template>
 
@@ -113,7 +118,7 @@ export default {
         },
       ],
       tableOptions: {
-        selection: false,
+        selection: true,
         index: true,
         labelIndex: "序号",
         slotBtn: true,
@@ -178,7 +183,8 @@ export default {
         },
       ],
       isShow: false, //上传组件显示与否
-      searchIcon: 'el-icon-search' //关键词图标
+      searchIcon: 'el-icon-search', //关键词图标
+      tableRow: {}
     };
   },
   mounted() {
@@ -252,6 +258,14 @@ export default {
     // 上传组件
     showUpload() {
       this.isShow = !this.isShow;
+    },
+    // 批量删除
+    del() {
+      if(!this.tableRow.userId || this.tableRow.userId.length < 1) {
+        this.$message.error('请勾选某一行')
+        return false
+      }
+      console.log(this.tableRow);
     }
   },
   components: {

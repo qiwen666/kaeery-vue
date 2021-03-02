@@ -14,6 +14,8 @@ import './assets/personal/style.css';
 
 import permission from './permission';
 
+// import showMessage from './utils/showMessage'
+// Vue.use(showMessage)
 Vue.config.productionTip = false
 
 new Vue({
